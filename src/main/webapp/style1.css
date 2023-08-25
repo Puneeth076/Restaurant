@@ -1,0 +1,6 @@
+.orders:hover {
+  background-color: #cecece;
+}
+.orders::selection {
+  background: #000;
+}
