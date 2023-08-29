@@ -1,5 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<%@include file="Links.html" %>
+</head>
+<body>
 <!-- navbar -->
+
     <div class="bg-black position-sticky top-0 z-3" id="navbar">
       <nav class="containers">
         <h1 class="logo-container">
@@ -26,15 +36,36 @@
           <ul class="nav-item">
             <li class="nav-link"><a href="/Restaurant/">Home</a></li>
             <li class="nav-link"><a href="/Restaurant/#heroSection">Products</a></li>
-            <li class="nav-link"><a href="/Restaurant/">Chefs</a></li>
+            <li class="nav-link"><a href="/Restaurant/chefsList.jsp">Chefs</a></li>
             <li class="nav-link"><a href="/Restaurant/#aboutus">About us</a></li>
             <li class="nav-link"><a href="/Restaurant/#contactUs">Contact us</a></li>
           </ul>
-          <a href="/Restaurant/login.jsp">
-			  
-          <button class="primary_button">Admin Login</button>
-		  </a>
+          <%
+          	if(session.getAttribute("status") != null){
+          		%>
+          		<h3 class="text-white">
+          		<span class="far fa-user"></span>
+          		<%= session.getAttribute("status") %>
+          		</h3>
+          		<form action="logoutuser" method="post">			  
+          			<button class="primary_button">Logout</button>
+          		</form>
+          		<%
+          		
+          	}else{
+          		%>
+          		
+        	  <a href="/Restaurant/login.jsp">			  
+          			<button class="primary_button">Admin Login</button>
+          		</a>
+          		<%
+          	}
+          %>
+          
+        	  
+          
         </div>
         
       </nav>
     </div>
+</body>

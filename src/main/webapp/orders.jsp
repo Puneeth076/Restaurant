@@ -9,7 +9,8 @@
 <%@include file="Links.html" %>
 </head>
 <body>
-<%@include file="Navbar.html" %>
+
+<%@include file="Navbar.jsp" %>
 <div class="d-flex">
       <div style="width:25%;">
       	<%@include file="Sidebar.html" %>
@@ -17,23 +18,7 @@
       <div style="margin-left:16.5%;" class="fs-3">
       <div class="m-5">
       <h1 class="text-center mb-5">Order's list</h1>
-      <div
-        class="d-flex justify-content-between gap-2 btn align-items-center border"
-      >
-        <a
-          class="orders text-decoration-none text-body rounded w-50 d-flex justify-content-center align-items-center btn fs-3"
-          href="#"
-        >
-          <h3 class="">New order's</h3>
-        </a>
-
-        <a
-          href="#"
-          class="orders text-body text-decoration-none rounded w-50 d-flex justify-content-center align-items-center btn fs-3"
-        >
-          <h3 class="">Delivered order's</h3>
-        </a>
-      </div>
+      
       <table class="table table-striped table-hover mt-5">
         <thead>
           <tr>

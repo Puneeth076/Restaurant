@@ -331,14 +331,14 @@ ul {
   /* position: relative; */
 }
 
-.cardDetails:active {
+.cardDetails:hover {
   transition: all 0.5s ease-in-out;
   flex: 3;
 }
 .details {
   opacity: 0;
 }
-.cardDetails:active .details {
+.cardDetails:hover .details {
   opacity: 1;
   color: #f5f5f5;
 }

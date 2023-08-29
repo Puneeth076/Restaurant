@@ -8,7 +8,7 @@
 <%@include file="Links.html" %>
 </head>
 <body>
-<%@include file="Navbar.html" %>
+<%@include file="Navbar.jsp" %>
 <div class="d-flex">
       <div style="width:25%;">
       	<%@include file="Sidebar.html" %>

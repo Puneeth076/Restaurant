@@ -1,21 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <style>
+<html>
+<head>
+<meta charset="UTF-8">
+<%@include file="Links.html" %>
+<style>
       .wrapper {
         max-width: 350px;
-        min-height: 500px;
         margin: 80px auto;
         padding: 40px 30px 30px 30px;
         background-color: #ecf0f3;
@@ -31,7 +23,6 @@
       .logo img {
         width: 100%;
 
-        height: 80px;
         object-fit: cover;
         border-radius: 50%;
         box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3,
@@ -112,43 +103,29 @@
         color: #ec994b;
       }
     </style>
-    <%@include file="Links.html" %>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-  <%@include file="Navbar.jsp" %>
-    <div class="wrapper">
-      <div class="logo d-flex justify-content-center align-items-center">
-        <img src="./images/logo.jpg" alt="logo" />
-      </div>
-      <div class="text-center mt-4 name">SMILE</div>
-      <form class="p-3 mt-3" method="post" action="adminlogin">
+<title>Add category</title>
+</head>
+<body>
+
+<%@include file="Navbar.jsp" %>
+<div class="wrapper">
+      
+      <div class="text-center mt-4 name">Add category</div>
+      <form class="p-3 mt-3" method="post" action="addcategory">
         <div class="form-field d-flex align-items-center">
-          <span class="far fa-user"></span>
+          <span class="far fa-item"></span>
           <input
             type="text"
-            name="email"
+            name="category_name"
             id="userName"
-            placeholder="Email"
+            placeholder="Enter new category"
           />
         </div>
-        <div class="form-field d-flex align-items-center">
-          <span class="fas fa-key"></span>
-          <input
-            type="password"
-            name="password"
-            id="pwd"
-            placeholder="Password"
-          />
-        </div>
-        <button class="btn mt-3">Login</button>
+        
+        <button class="btn mt-3">Add category</button>
       </form>
     </div>
-    <%@include file="Footer.html" %>
-  </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"
-  ></script>
+	
+
+</body>
 </html>

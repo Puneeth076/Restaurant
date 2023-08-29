@@ -9,7 +9,7 @@
 <script src="./script.js"></script>
 </head>
 <body>
-<%@include file="Navbar.html" %>
+<%@include file="Navbar.jsp" %>
 <!-- main -->
     <div
       class="vw-100 vh-100 bg-dark main d-sm-flex flex-sm-column flex-md-column flex-lg-row"
