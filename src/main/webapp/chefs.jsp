@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.helpers.DBconfig"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,6 +12,11 @@
 <%@include file="Links.html" %>
 </head>
 <body>
+<%
+	if(session.getAttribute("status") == null){
+		response.sendRedirect("/Restaurant/login.jsp");
+	}
+%>
 
 <%@include file="Navbar.jsp" %>
 <div class="d-flex">
@@ -31,45 +40,42 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="align-items-center">
-            <th scope="row">1</th>
-            <td><img src="./images/logo.jpg" width="40" height="40" /></td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+        <%
+        
+        Connection connection = DBconfig.getConnection();
+        
+        PreparedStatement pst = connection.prepareStatement("select * from chefs");
+        
+		ResultSet rs = pst.executeQuery();
+		int i=1;
+		while(rs.next()){
+			%>
+			<tr class="align-items-center">
+            <th scope="row"><%=i++ %></th>
+            <td><img style="border-radius:50%" src="./chefs/<%=rs.getString("profile") %>" width="40" height="40" /></td>
+            <td><%= rs.getString("name") %></td>
+            <td><%= rs.getString("designation") %></td>
             <td>
               <div>
+              <a href="/Restaurant/updatechefs.jsp?id=<%=rs.getInt("id")%>">
                 <button class="btn">
                   <img src="./images/view.svg" alt="view" />
                 </button>
+              </a>
                 <button class="btn">
                   <img src="./images/delete.svg" alt="view" />
                 </button>
               </div>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><img src="./images/logo.jpg" width="40" height="40" /></td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <div>
-                <button class="btn">
-                  <img src="./images/view.svg" alt="view" />
-                </button>
-                <button class="btn">
-                  <img src="./images/delete.svg" alt="view" />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-          </tr>
+			<%
+			
+		}
+        
+        
+        %>
+          
+         
         </tbody>
       </table>
     </div>

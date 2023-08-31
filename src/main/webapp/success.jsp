@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@include file="Links.html" %>
 <style>
       .wrapper {
         max-width: 350px;
+        min-height: 500px;
         margin: 80px auto;
         padding: 40px 30px 30px 30px;
         background-color: #ecf0f3;
@@ -23,6 +23,7 @@
       .logo img {
         width: 100%;
 
+        height: 80px;
         object-fit: cover;
         border-radius: 50%;
         box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3,
@@ -64,8 +65,6 @@
         box-shadow: none;
         width: 100%;
         height: 40px;
-        background-color: #03a9f4;
-        color: #fff;
         border-radius: 25px;
         box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
         letter-spacing: 1.3px;
@@ -102,38 +101,31 @@
       .signtext {
         color: #ec994b;
       }
+      .images{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-left:70px;
+      	border-radius: 70%;
+      }
+      
     </style>
-<title>Add category</title>
+<title>success</title>
+<%@include file="Links.html" %>
 </head>
 <body>
-<%
-	if(session.getAttribute("status") == null){
-		response.sendRedirect("/Restaurant/login.jsp");
-	}
-%>
 
-<%@include file="Navbar.jsp" %>
-<a href="/Restaurant/addfood.jsp">
-<h1 class="ms-4 mt-3 btn fs-1">👈Back</h1>
-</a>
-<div class="wrapper">
-      
-      <div class="text-center mt-4 name">Add category</div>
-      <form class="p-3 mt-3" method="post" action="addcategory">
-        <div class="form-field d-flex align-items-center">
-          <span class="far fa-item"></span>
-          <input
-            type="text"
-            name="category_name"
-            id="userName"
-            placeholder="Enter new category"
-          />
-        </div>
-        
-        <button class="btn mt-3">Add category</button>
-      </form>
-    </div>
+	<div class="wrapper">
+      <div class="logo d-flex justify-content-center align-items-center">
+        <img src="./images/logo.jpg" alt="logo" />
+      </div>
+      <div class="text-center mt-4 name">SMILE</div>
 	
-
+		<h1 class="text-center">Congratulation</h1>        
+        <h2 class="text-center my-2"><%=session.getAttribute("user") %></h2>
+        <p class="fs-4 text-center"> your order placed successfully </p>
+        <img class="images my-3" src="./images/animation.gif" alt="animation"/>
+      
+    </div>
 </body>
 </html>

@@ -1,3 +1,12 @@
+<%@page import="java.util.Random"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.DAO.foodDAO"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.helpers.DBconfig"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,14 +24,29 @@
     <style></style>
   </head>
   
-  <body>
+  <body class="bg-light">
+ 
   
-    <div class="vw-100 d-flex justify-content-center align-items-center">
+    <div class=" d-flex justify-content-center align-items-center">
       <div class="w-75 h-100 gap-3">
         <div class="">
-          <h1 class="text-center">Welcome to our restaurant</h1>
+          <h1 class="text-center mt-5">Welcome to our restaurant</h1>
           <hr />
-          <form class="card p-5 gap-2">
+          <%
+          	Connection connection = DBconfig.getConnection();
+          	PreparedStatement ps = connection.prepareStatement("select id from tables");
+          	ResultSet rs = ps.executeQuery();
+          	String idString[]=null;
+          	while(rs.next()){
+          		
+          	Random r = new Random();
+          	int id = r.nextInt(rs.getInt("id"));
+          	%>
+          	
+          <form id="orders" class="card p-5 gap-2" method="post" onSubmit="changeEvent()" action="orders?id=781">
+          <%
+          	}
+          %>
             <h2>May i know your information</h2>
             <div class="form-group">
               <label for="exampleInputEmail1">Name</label>
@@ -69,65 +93,72 @@
               >
             </div>
             <div class="menu mt-5">
-              <h1 class="text-center">Takeaway Menu</h1>
-              <div class="card mt-3">
-                <div class="card-header">Category</div>
+              <h1 class="text-center mb-2">Takeaway Menu</h1>
+              <%
+              	Map<String, Integer> orders = new HashMap<>();
+            		  System.out.print(orders);
+  					foodDAO foodDAO = new foodDAO(DBconfig.getConnection());
+            		 Map<String, Map<String,Integer>> foods =  foodDAO.getMenu();
+            		  for(Map.Entry<String, Map<String, Integer>> entry : foods.entrySet()){
+            			  
+            			  %>
+            			  <div class="card mt-3">
+                <div class="card-header"><%=entry.getKey() %></div>
                 <div class="card-body d-flex flex-column">
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="pizza" id="pizza" />
-                    <label for="pizza"> Pizza </label>
-                  </div>
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="burger" id="burger" />
-                    <label for="burger"> burger </label>
-                  </div>
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="lassi" id="lassi" />
-                    <label for="lassi"> lassi </label>
-                  </div>
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="biryani" id="biryani" />
-                    <label for="biryani"> biryani </label>
-                  </div>
+                  <%
+                  Map<String, Integer> foodPrize =entry.getValue(); 
+                  	for(Map.Entry<String, Integer> food:foodPrize.entrySet()  ){
+                  		%>
+                  		<div class="card-group cursor gap-1 d-flex justify-content-between">
+                  			<div class="d-flex justify-content-center align-items-center gap-2">
+                    			<input type="checkbox"  value=" <%=food.getKey() %>-<%=food.getValue() %>" name="menu" id="<%=food.getKey() %>" />
+                    			<label for="<%=food.getKey() %>"><%=food.getKey() %></label>
+                  			</div>
+                    		<h4 name="prize" > <%=food.getValue() %> </h4>
+                 		</div>
+                  		<%
+                  	}
+                  %>
                 </div>
               </div>
-              <div class="card mt-3">
-                <div class="card-header">Category</div>
-                <div class="card-body d-flex flex-column">
-                  <div
-                    class="card-group cursor gap-1 d-flex justify-content-between"
-                  >
-                    <div class="">
-                      <input type="radio" name="pizza" id="pizza" />
-                      <label for="pizza"> Pizza </label>
-                    </div>
-                    <div class=""><h4>Rs.270</h4></div>
-                  </div>
-                  <div
-                    class="card-group cursor gap-1 d-flex justify-content-between"
-                  >
-                    <div class="">
-                      <input type="radio" name="pizza" id="pizza" />
-                      <label for="pizza"> Pizza </label>
-                    </div>
-                    <div class=""><h4>Rs.270</h4></div>
-                  </div>
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="lassi" id="lassi" />
-                    <label for="lassi"> lassi </label>
-                  </div>
-                  <div class="card-group cursor gap-1">
-                    <input type="radio" name="biryani" id="biryani" />
-                    <label for="biryani"> biryani </label>
-                  </div>
-                </div>
+            			  <%
+            			  
+            		  }
+            		 
+  			  %>
               </div>
-            </div>
-            <button class="btn btn-secondary">Order</button>
+              <input type="hidden" name="selectedVehicles" id="selectedVehicles"/>
+            <button class="btn btn-secondary"  >Order</button>
           </form>
         </div>
       </div>
     </div>
+    <script>
+       
+    const changeEvent = () =>{
+    	var vehicleTypes = document.getElementsByName("menu");
+        var selectedVehicleTypes = [];
+        for (var i = 0; i < vehicleTypes.length; i++) {
+            if (vehicleTypes[i].checked) {
+                selectedVehicleTypes.push(vehicleTypes[i].value);
+            }
+        }
+        
+        // Set the value of selectedVehicles to comma separated 
+        // String of the selected vehicle types
+        
+        var hiddenSelectedVehicles = document.getElementById("selectedVehicles");
+        hiddenSelectedVehicles.value = selectedVehicleTypes.join(",");
+        
+        // jQuery
+        /* $("#selectedVehicles").value(selectedVehicleTypes.join(",")); */
+        
+        // Submit the form using javascript
+        var form = document.getElementById("orders");
+        form.submit();
+    }
+    
+    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
       integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"

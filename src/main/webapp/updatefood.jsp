@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add food</title>
+<title>update food</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
@@ -26,30 +26,28 @@
 <div
       class=" d-flex justify-content-center fs-2 align-items-center flex-column"
     >
-      <h1 class="mb-5">Add Food</h1>
-      <form class="w-50 h-75 shadow p-4 me-0" method="post" action="addfood" enctype="multipart/form-data">
+      <h1 class="mb-5">Update Food</h1>
+      
+      <%
+      
+      int id =Integer.parseInt(request.getParameter("id"));
+      
+      String GET_CATEGORY1 = "select * from food where id=?";
+  	PreparedStatement preparedStatement1 = DBconfig.getConnection().prepareStatement(GET_CATEGORY1);
+  	preparedStatement1.setInt(1, id);
+  	ResultSet resultSet = preparedStatement1.executeQuery();
+      while(resultSet.next()){
+    	 
+    	  %>
+    	  <form class="w-50 h-75 shadow p-4 me-0" method="post" action="updatefoods?id=<%=id %>" enctype="multipart/form-data">
       <div class="input-group mb-3">
   <div class="input-group-prepend gap-5">
     <label class="input-group-text w-100 h-100" for="inputGroupSelect01">Category</label>
-    <label class="input-group-text w-100 h-100 mb-3" for="inputGroupSelect02">
-    <a href="/Restaurant/addCategory.jsp">
-    Add category
-    </a>
-    </label>
+    
   </div>
   <select name="category" class="custom-select w-100 h-100" id="inputGroupSelect01">
-  <%
-  	if(session.getAttribute("category") != null){
-  		%>
-  		<option selected><%=session.getAttribute("category") %> </option>
-  		<%
-  	}else{
-	%>
-    <option selected>Choose...</option>
-	<%  		
-  	}
-  %>
-  <hr/>
+    <option selected><%=resultSet.getString("category") %></option>
+	  <hr/>
     <%
     String GET_CATEGORY = "select * from category";
 	PreparedStatement preparedStatement = DBconfig.getConnection().prepareStatement(GET_CATEGORY);
@@ -73,6 +71,7 @@
           <input
             type="text"
             name="foodname"
+            value="<%=resultSet.getString("foodName") %>"
             class="form-control p-3 fs-2"
             id="item-name"
             placeholder="Enter item name"
@@ -82,16 +81,19 @@
           <label for="item-description">Food Description</label>
           <textarea
             class="form-control  p-3 fs-2"
+            
             id="item-description"
             name="food_description"
             rows="3"
             placeholder="Enter item description"
-          ></textarea>
+          ><%=resultSet.getString("foodDescription") %>
+          </textarea>
         </div>
         <div class="form-group p-2">
           <label for="item-price">Food Price</label>
           <input
             type="number"
+            value="<%=resultSet.getInt("foodPrize") %>"
             class="form-control  p-3 fs-2"
             name="food_prize"
             id="item-price"
@@ -105,18 +107,25 @@
             name="food_image"
             class="form-control  p-3 fs-2"
             id="item-image"
+			value="<%=resultSet.getString("foodImage") %>"
             placeholder="Add item image"
           />
+          <img src="./assets/<%=resultSet.getString("foodImage") %>" width="200" height="200"/>
         </div>
         <div class="p-2 d-flex justify-content-center align-items-center">
           <button
             type="submit"
             class="btn btn-primary p-2 fs-2 w-100 d-flex justify-content-center align-items-center"
           >
-            Add Food
+            Update Food
           </button>
         </div>
       </form>
+    	  <%
+    	  
+      }
+      %>
+      
     </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

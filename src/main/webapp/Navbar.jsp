@@ -43,10 +43,12 @@
           <%
           	if(session.getAttribute("status") != null){
           		%>
+          		<a href="/Restaurant/dashboard.jsp">
           		<h3 class="text-white">
           		<span class="far fa-user"></span>
           		<%= session.getAttribute("status") %>
           		</h3>
+          		</a>
           		<form action="logoutuser" method="post">			  
           			<button class="primary_button">Logout</button>
           		</form>

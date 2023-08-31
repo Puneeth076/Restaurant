@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.helpers.DBconfig"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,7 +11,12 @@
 <title>Dashboard</title>
 <%@include file="Links.html" %>
 </head>
-<body>
+<body><%
+	if(session.getAttribute("status") == null){
+		response.sendRedirect("/Restaurant/login.jsp");
+	}
+%>
+
 <%@include file="Navbar.jsp" %>
 <div class="d-flex">
       <div style="width:25%;">
@@ -30,40 +39,41 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="align-items-center">
-            <th scope="row">1</th>
-            <td><img src="./images/logo.jpg" width="40" height="40" /></td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>
-              <div>
-                <button class="btn">
-                  <img src="./images/view.svg" alt="view" />
-                </button>
-                <button class="btn">
-                  <img src="./images/delete.svg" alt="view" />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><img src="./images/logo.jpg" width="40" height="40" /></td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>
-              <div>
-                <button class="btn">
-                  <img src="./images/view.svg" alt="view" />
-                </button>
-                <button class="btn">
-                  <img src="./images/delete.svg" alt="view" />
-                </button>
-              </div>
-            </td>
-          </tr>
+        <%
+			Connection conn = DBconfig.getConnection();
+        	PreparedStatement preparedStatement = conn.prepareStatement("select * from food");
+        	ResultSet resultSet = preparedStatement.executeQuery();
+        	int i=1;
+        	while(resultSet.next()){
+        		%>
+        		
+        		<tr class="align-items-center">
+            		<th scope="row"><%=i++ %></th>
+            		<td><img style="border-radius:50%" src="./assets/<%=resultSet.getString("foodImage")%>" width="40" height="40" /></td>
+            		<td><%=resultSet.getString("foodName") %></td>
+           			 <td class="fs-3"><%=resultSet.getString("foodDescription") %></td>
+            		<td><%=resultSet.getString("foodPrize") %></td>
+            		<td>
+             			 <div class="d-flex">
+             			 <a href="/Restaurant/updatefood.jsp?id=<%=resultSet.getInt("id")%>">
+                			<button class="btn">
+                 				 <img src="./images/view.svg" alt="view" />
+                			</button>
+             			 </a>
+             			 <form action="deletefood?id=<%=resultSet.getInt("id")%>" method="post">
+                			<button class="btn">
+                 				 <img src="./images/delete.svg" alt="view" />
+                			</button>
+             			 </form>
+              			</div>
+            		</td>
+          		</tr>
+        		<%
+        	}
+        
+		%>
+          
+         
           
         </tbody>
       </table>
